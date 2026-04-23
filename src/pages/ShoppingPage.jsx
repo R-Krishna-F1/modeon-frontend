@@ -1,6 +1,5 @@
 // src/pages/ShoppingPage.jsx
 import { useState }              from 'react';
-import { motion }                from 'framer-motion';
 import { Sparkles }              from 'lucide-react';
 import PageWrapper               from '@/components/layout/PageWrapper';
 import { ShoppingUploadZone }    from '@/components/shopping/ShoppingUploadZone';
@@ -10,7 +9,6 @@ import { ShoppingListGrid }      from '@/components/shopping/ShoppingListGrid';
 import { ShoppingOutfitCard }    from '@/components/shopping/ShoppingOutfitCard';
 import Spinner                   from '@/components/ui/Spinner';
 import useShoppingStore          from '@/stores/useShoppingStore';
-import useSubscriptionStore      from '@/stores/useSubscriptionStore';
 import useUIStore                from '@/stores/useUIStore';
 // TODO (Backend): POST /api/shopping/upload
 // TODO (Backend): POST /api/shopping/compare
@@ -20,7 +18,6 @@ import useUIStore                from '@/stores/useUIStore';
 const TABS = ['Upload & Compare', 'Shopping List', 'Outfit Generator'];
 
 export default function ShoppingPage() {
-  const isPremium    = useSubscriptionStore((s) => s.isPremium());
   const addToast     = useUIStore((s) => s.addToast);
   const {
     uploadedItem, setUploadedItem,
@@ -29,9 +26,9 @@ export default function ShoppingPage() {
     shoppingList, addToList, removeFromList,
   } = useShoppingStore();
 
-  const [tab,       setTab]       = useState(0);
-  const [preview,   setPreview]   = useState(null); // object URL
-  const [comparing, setComparing] = useState(false);
+  const [tab,        setTab]        = useState(0);
+  const [preview,    setPreview]    = useState(null);
+  const [comparing,  setComparing]  = useState(false);
   const [genLoading, setGenLoading] = useState(false);
   const [genResults, setGenResults] = useState([]);
 
@@ -44,14 +41,14 @@ export default function ShoppingPage() {
   };
 
   const handleCompare = async () => {
-    if (!uploadedItem || compareUsage.used >= compareUsage.limit) return;
+    if (!uploadedItem) return;
     setComparing(true);
     try {
       // TODO (Backend): POST /api/shopping/compare { upload_id: uploadedItem.id }
       await new Promise((r) => setTimeout(r, 900));
       setCompareResult({
-        result:        'compatible',
-        explanation:   'This piece works beautifully with your existing wardrobe. The colour and silhouette complement your navy trousers and beige outerwear particularly well.',
+        result:         'compatible',
+        explanation:    'This piece works beautifully with your existing wardrobe. The colour and silhouette complement your navy trousers and beige outerwear particularly well.',
         matching_items: ['Navy Trousers', 'Beige Coat', 'Black Shoes'],
       });
       setCompareUsage({ ...compareUsage, used: compareUsage.used + 1 });
@@ -75,6 +72,7 @@ export default function ShoppingPage() {
       setGenResults([
         { id: 'g1', items: [shoppingList[0]?.thumbnail || 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300', 'https://images.unsplash.com/photo-1624372333454-da58f936a1bc?w=300'], explanation: 'Your new piece pairs effortlessly with existing wardrobe staples for a polished everyday look.' },
         { id: 'g2', items: [shoppingList[0]?.thumbnail || 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300', 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300'], explanation: 'A smart-casual combination that elevates your shopping list item with complementary pieces.' },
+        { id: 'g3', items: [shoppingList[0]?.thumbnail || 'https://images.unsplash.com/photo-1596755094514-f87034a2612d?w=300', 'https://images.unsplash.com/photo-1535633302704-c0299ba4d9cb?w=300'], explanation: 'Weekend-ready look that pairs your new find with casual wardrobe staples.' },
       ]);
       addToast({ type: 'info', message: 'Feature coming soon — backend not connected' });
     } finally {
@@ -117,7 +115,7 @@ export default function ShoppingPage() {
                 onAddToList={handleAddToList}
                 comparing={comparing}
                 usageUsed={compareUsage.used}
-                usageLimit={isPremium ? 999 : compareUsage.limit}
+                usageLimit={999}
               />
               {compareResult && <CompareResultCard result={compareResult} />}
               {compareResult && (
@@ -152,7 +150,7 @@ export default function ShoppingPage() {
             <p className="text-sm text-taupe mb-4">
               {shoppingList.length < 2
                 ? 'Add at least 2 items to your Shopping List to unlock the Outfit Generator.'
-                : `Generating outfits from ${shoppingList.length} shopping list items${!isPremium ? ' (free: 3 max)' : ' (up to 10)'}.`}
+                : `Generating outfits from ${shoppingList.length} shopping list item${shoppingList.length !== 1 ? 's' : ''}.`}
             </p>
             <button
               onClick={handleGenerate}

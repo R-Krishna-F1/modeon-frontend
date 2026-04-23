@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Home, Shirt, Sparkles, ShoppingBag, Heart,
-  Settings, Crown, Calendar, Layers,
+  Settings, Calendar, Layers,
 } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import useAuthStore from '@/stores/useAuthStore';
@@ -91,11 +91,8 @@ export default function Sidebar() {
       {/* User profile stub */}
       <div className="border-t border-divider py-3.5">
         <div className="flex items-center pl-5 gap-3">
-          <div className="relative w-9 h-9 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
+          <div className="w-9 h-9 rounded-full bg-taupe/20 flex items-center justify-center flex-shrink-0">
             <span className="text-sm text-taupe font-bold">{initials}</span>
-            <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-gold rounded-full border-2 border-surface flex items-center justify-center">
-              <Crown size={7} color="white" />
-            </div>
           </div>
           <AnimatePresence>
             {expanded && (
@@ -103,7 +100,6 @@ export default function Sidebar() {
                 <div className="text-[13px] font-bold text-ink leading-tight">
                   {user?.user_metadata?.full_name ?? user?.email ?? 'Modeon User'}
                 </div>
-                <div className="text-2xs text-gold font-bold tracking-widest uppercase">Premium ✦</div>
               </motion.div>
             )}
           </AnimatePresence>

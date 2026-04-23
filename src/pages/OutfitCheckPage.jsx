@@ -5,7 +5,7 @@ import PremiumLock               from '@/components/ui/PremiumLock';
 import { OutfitCheckUploader }   from '@/components/outfitcheck/OutfitCheckUploader';
 import { OutfitCheckResult }     from '@/components/outfitcheck/OutfitCheckResult';
 import { OutfitCheckHistory }    from '@/components/outfitcheck/OutfitCheckHistory';
-import useSubscriptionStore      from '@/stores/useSubscriptionStore';
+
 import useUIStore                from '@/stores/useUIStore';
 import { submitOutfitCheck }     from '@/api/outfitCheck.api';
 // TODO (Backend): POST /api/outfit-check — upload photo; GPT-4o Vision analysis
@@ -17,7 +17,7 @@ const MOCK_HISTORY = [
 ];
 
 export default function OutfitCheckPage() {
-  const isPremium  = useSubscriptionStore((s) => s.isPremium());
+  
   const addToast   = useUIStore((s) => s.addToast);
   const [result,   setResult]   = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -51,7 +51,7 @@ export default function OutfitCheckPage() {
         <p className="text-sm text-muted italic">Upload a photo and get AI feedback on your look.</p>
       </header>
 
-      <PremiumLock locked={!isPremium}>
+      <PremiumLock>
         {/* Tabs */}
         <div className="flex gap-1 bg-surface rounded-2xl p-1 w-fit mb-8">
           {['check', 'history'].map((t) => (

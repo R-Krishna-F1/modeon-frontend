@@ -7,13 +7,13 @@ import PremiumLock            from '@/components/ui/PremiumLock';
 import { MixMatchCanvas }     from '@/components/mixmatch/MixMatchCanvas';
 import { ItemPicker }         from '@/components/mixmatch/ItemPicker';
 import { CompatibilityScore } from '@/components/mixmatch/CompatibilityScore';
-import useSubscriptionStore   from '@/stores/useSubscriptionStore';
+
 import useUIStore             from '@/stores/useUIStore';
 // TODO (Backend): POST /api/outfits/score — send item_ids; returns { score, explanation }
 // TODO (Backend): POST /api/outfits/{id}/save — persist named outfit
 
 export default function MixMatchPage() {
-  const isPremium  = useSubscriptionStore((s) => s.isPremium());
+  
   const addToast   = useUIStore((s) => s.addToast);
 
   const [slots,       setSlots]       = useState({});  // { [slotId]: item }
@@ -76,7 +76,7 @@ export default function MixMatchPage() {
         <p className="text-sm text-muted italic">Drag items from your wardrobe onto the canvas.</p>
       </header>
 
-      <PremiumLock locked={!isPremium}>
+      <PremiumLock>
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div className="flex gap-8">
             <ItemPicker />

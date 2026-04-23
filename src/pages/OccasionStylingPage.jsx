@@ -7,7 +7,7 @@ import OutfitCard            from '@/components/outfits/OutfitCard';
 import PremiumLock           from '@/components/ui/PremiumLock';
 import Spinner               from '@/components/ui/Spinner';
 import { OCCASIONS }         from '@/constants/occasions';
-import useSubscriptionStore  from '@/stores/useSubscriptionStore';
+
 import useUIStore            from '@/stores/useUIStore';
 // TODO (Backend): POST /api/outfits/occasion — requires Premium; calls Azure OpenAI GPT-4o
 
@@ -21,7 +21,7 @@ const MOCK_RESULTS = [
 ];
 
 export default function OccasionStylingPage() {
-  const isPremium   = useSubscriptionStore((s) => s.isPremium());
+  
   const addToast    = useUIStore((s) => s.addToast);
   const [occasion,  setOccasion]   = useState('');
   const [desc,      setDesc]       = useState('');
@@ -48,7 +48,7 @@ export default function OccasionStylingPage() {
         <p className="text-sm text-muted italic">Let AI build your perfect outfit for any event.</p>
       </header>
 
-      <PremiumLock locked={!isPremium}>
+      <PremiumLock>
         <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-8">
           {/* Controls */}
           <div className="card flex flex-col gap-5 h-fit">
