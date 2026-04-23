@@ -1,0 +1,18 @@
+export const ROUTES = {
+  LANDING:          '/',
+  LOGIN:            '/login',
+  REGISTER:         '/register',
+  FORGOT_PASSWORD:  '/forgot-password',
+  ONBOARDING:       '/onboarding',
+  DASHBOARD:        '/dashboard',
+  WARDROBE:         '/wardrobe',
+  SWIPE:            '/swipe',
+  MY_OUTFITS:       '/outfits',
+  OCCASION:         '/occasion',
+  MIX_MATCH:        '/mix-match',
+  OUTFIT_CHECK:     '/outfit-check',
+  SHOPPING:         '/shopping',
+  PRICING:          '/pricing',
+  ACCOUNT:          '/account',
+  PUBLIC_OUTFIT:    '/share/:shareToken',
+};

@@ -1,0 +1,16 @@
+# backend/requirements.txt
+# PLACEHOLDER — install these when implementing the backend
+
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+pydantic==2.6.1
+pydantic-settings==2.2.1
+supabase==2.3.4
+python-jose[cryptography]==3.3.0
+stripe==8.4.0
+openai==1.12.0
+azure-storage-blob==12.19.0
+rembg==2.0.56
+Pillow==10.2.0
+python-multipart==0.0.9
+httpx==0.26.0
